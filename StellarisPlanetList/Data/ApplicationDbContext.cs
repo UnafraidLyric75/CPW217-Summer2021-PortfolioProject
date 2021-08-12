@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using StellarisPlanetList.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,7 @@ namespace StellarisPlanetList.Data
             : base(options)
         {
         }
+        public DbSet<PlanetViewModel> Planets { get; set; }
+        public DbSet<UserAccounts> Users { get; set; }
     }
 }
