@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StellarisPlanetList.Models;
@@ -13,13 +11,26 @@ namespace StellarisPlanetList.Data
     {
         private readonly IHttpContextAccessor _httpContext;
         private readonly ApplicationDbContext _context;
-        public async static Task<int> GetTotalProductsAsync(ApplicationDbContext _context)
+        /// <summary>
+        /// Gets all planets even those in other users accounts
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <returns></returns>
+        public async static Task<int> GetTotalPlanetsAsync(ApplicationDbContext _context)
         {
             return await (from p in _context.Planets
                           select p).CountAsync();
         }
 
-        public async static Task<List<PlanetViewModel>> GetProductsAsync(ApplicationDbContext _context, IHttpContextAccessor _httpContext, int pageSize, int pageNum)
+        /// <summary>
+        /// Gets all planets that are linked to a certian user
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <param name="_httpContext"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageNum"></param>
+        /// <returns></returns>
+        public async static Task<List<PlanetViewModel>> GetPlanetsAsync(ApplicationDbContext _context, IHttpContextAccessor _httpContext, int pageSize, int pageNum)
         {
             int? userId = _httpContext.HttpContext.Session.GetInt32("UserId");
             string userName = null;
@@ -48,14 +59,27 @@ namespace StellarisPlanetList.Data
                        .ToListAsync();
         }
 
-        public async static Task<PlanetViewModel> AddProductAsync(ApplicationDbContext _context, PlanetViewModel p)
+        /// <summary>
+        /// simple add planet
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public async static Task<PlanetViewModel> AddPlanetAsync(ApplicationDbContext _context, PlanetViewModel p)
         {
             _context.Planets.Add(p);
             await _context.SaveChangesAsync();
             return p;
         }
 
-        public static async Task<PlanetViewModel> GetProductAsync(ApplicationDbContext _context, IHttpContextAccessor _httpContext, int prodid)
+        /// <summary>
+        /// Gets all planets linked to the logged in user
+        /// </summary>
+        /// <param name="_context"></param>
+        /// <param name="_httpContext"></param>
+        /// <param name="prodid"></param>
+        /// <returns></returns>
+        public static async Task<PlanetViewModel> GetPlanetAsync(ApplicationDbContext _context, IHttpContextAccessor _httpContext, int prodid)
         {
             int? userId = _httpContext.HttpContext.Session.GetInt32("UserId");
             string userName = null;

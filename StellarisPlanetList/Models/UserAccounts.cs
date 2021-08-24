@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace StellarisPlanetList.Models
 {
     /// <summary>
-    /// imported from older portfolio project
+    /// All data for user in the database
     /// </summary>
     public class UserAccounts
     {
@@ -21,6 +21,9 @@ namespace StellarisPlanetList.Models
         public DateTime? DateOfBirth { get; set; }
     }
 
+    /// <summary>
+    /// Makes sure the data is up to standard
+    /// </summary>
     public class RegisterViewModel
     {
         [Required]
@@ -52,6 +55,9 @@ namespace StellarisPlanetList.Models
         public DateTime? DateOfBirth { get; set; }
     }
 
+    /// <summary>
+    /// Login reqs
+    /// </summary>
     public class LoginViewModel
     {
         [Required]

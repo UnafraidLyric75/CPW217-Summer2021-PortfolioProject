@@ -30,7 +30,7 @@ namespace NationalParksAcrossAmerica.Controllers
         }
 
         /// <summary>
-        /// creates a new users
+        /// creates a new user
         /// </summary>
         /// <param name="reg"></param>
         /// <returns></returns>
@@ -135,6 +135,10 @@ namespace NationalParksAcrossAmerica.Controllers
             HttpContext.Session.SetInt32("UserId", accountId);
         }
 
+        /// <summary>
+        /// Logs the user out
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
