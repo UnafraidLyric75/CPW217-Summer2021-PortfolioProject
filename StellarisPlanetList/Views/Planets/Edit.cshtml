@@ -1,0 +1,64 @@
+﻿@model StellarisPlanetList.Models.PlanetViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PlanetViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PlanetId" />
+            <div class="form-group">
+                <label asp-for="PlanetName" class="control-label"></label>
+                <input asp-for="PlanetName" class="form-control" />
+                <span asp-validation-for="PlanetName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetType" class="control-label"></label>
+                <input asp-for="PlanetType" class="form-control" />
+                <span asp-validation-for="PlanetType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetSize" class="control-label"></label>
+                <input asp-for="PlanetSize" class="form-control" />
+                <span asp-validation-for="PlanetSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetPercenage" class="control-label"></label>
+                <input asp-for="PlanetPercenage" class="form-control" />
+                <span asp-validation-for="PlanetPercenage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetEffects" class="control-label"></label>
+                <input asp-for="PlanetEffects" class="form-control" />
+                <span asp-validation-for="PlanetEffects" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanetNotes" class="control-label"></label>
+                <input asp-for="PlanetNotes" class="form-control" />
+                <span asp-validation-for="PlanetNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
