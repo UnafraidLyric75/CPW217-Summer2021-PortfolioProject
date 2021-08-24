@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StellarisPlanetList.Data;
 using StellarisPlanetList.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,10 +13,12 @@ namespace StellarisPlanetList.Controllers
     public class PlanetsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public PlanetsController(ApplicationDbContext context)
+        public PlanetsController(ApplicationDbContext context, IHttpContextAccessor httpContext)
         {
             _context = context;
+            _httpContext = httpContext;
         }
 
         /// <summary>
@@ -24,6 +28,7 @@ namespace StellarisPlanetList.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Index(int? id)
         {
+
             int pageNum = id ?? 1;
             const int PageSize = 20;
             ViewData["CurrentPage"] = pageNum;
@@ -32,7 +37,7 @@ namespace StellarisPlanetList.Controllers
             int totalPages = (int)Math.Ceiling((double)numProducts / PageSize);
             ViewData["MaxPage"] = totalPages;
 
-            List<PlanetViewModel> products = await PlanetDB.GetProductsAsync(_context, PageSize, pageNum);
+            List<PlanetViewModel> products = await PlanetDB.GetProductsAsync(_context, _httpContext, PageSize, pageNum);
 
 
 
@@ -75,7 +80,7 @@ namespace StellarisPlanetList.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, id);
+            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext,id);
             return View(p);
         }
 
@@ -101,7 +106,7 @@ namespace StellarisPlanetList.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, id);
+            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext, id);
 
             return View(p);
         }
@@ -115,7 +120,7 @@ namespace StellarisPlanetList.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, id);
+            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext, id);
 
             _context.Entry(p).State = EntityState.Deleted;
 
