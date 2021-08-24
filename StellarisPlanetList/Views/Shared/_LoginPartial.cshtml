@@ -1,11 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IHttpContextAccessor sessionData
+@inject StellarisPlanetList.Data.ApplicationDbContext db
+@{
+    int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
+    string userName = null;
 
-namespace StellarisPlanetList.Views.Shared
-{
-    public class _LoginPartial
+    if (userId.HasValue)
     {
+        if (sessionData.HttpContext.Session.GetString("Username") == null)
+        {
+            userName = await (from u in db.Users
+                              where u.UserId == userId
+                              select u.Username).SingleOrDefaultAsync();
+            sessionData.HttpContext.Session.SetString("Username", userName);
+        }
+        else
+        {
+            userName = sessionData.HttpContext.Session.GetString("Username");
+        }
     }
 }
+
+
+<ul class="navbar-nav">
+
+    @if (userId == null) // if user not logged in
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Log in</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark disabled">Welcome @userName!</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark " asp-controller="User" asp-action="Logout">Logout</a>
+        </li>
+    }
+</ul>
