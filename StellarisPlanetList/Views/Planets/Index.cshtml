@@ -16,6 +16,10 @@
     </div>
 }
 
+<br />
+<a class="btn btn-primary" asp-action="Add" asp-controller="Planets">Add Planet</a>
+<br />
+
 <div class="table-responsive">
     <table class="table table-hover table-light table-striped">
         <thread>
@@ -36,14 +40,18 @@
 
             @foreach (PlanetViewModel p in Model)
             {
-            <tr>
-                <td>@p.PlanetName</td>
-                <td>@p.PlanetType</td>
-                <td>@p.PlanetSize</td>
-                <td>@p.PlanetPercenage</td>
-                <td>@p.PlanetEffects</td>
-                <td>@p.PlanetNotes</td>
-            </tr>
+                <tr>
+                    <td>@p.PlanetName</td>
+                    <td>@p.PlanetType</td>
+                    <td>@p.PlanetSize</td>
+                    <td>@p.PlanetPercenage</td>
+                    <td>@p.PlanetEffects</td>
+                    <td>@p.PlanetNotes</td>
+                    <td>
+                        <a class="btn btn-info" asp-route-id="@p.PlanetId" asp-action="Edit">Edit</a>
+                        <a class="btn btn-danger" asp-route-id="@p.PlanetId" asp-action="Delete">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
