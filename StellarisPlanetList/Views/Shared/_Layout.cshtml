@@ -1,6 +1,28 @@
-﻿@using Microsoft.EntityFrameworkCore
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IHttpContextAccessor sessionData
+@inject StellarisPlanetList.Data.ApplicationDbContext db
+@{
+    int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
+    string userName = null;
 
-
+    if (userId.HasValue)
+    {
+        if (sessionData.HttpContext.Session.GetString("Username") == null)
+        {
+            userName = await (from u in db.Users
+                              where u.UserId == userId
+                              select u.Username).SingleOrDefaultAsync();
+            sessionData.HttpContext.Session.SetString("Username", userName);
+        }
+        else
+        {
+            userName = sessionData.HttpContext.Session.GetString("Username");
+        }
+    }
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,6 +51,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @if (userId == null) // if user logged in
+                        {
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Planets" asp-action="Index">Planet List</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
