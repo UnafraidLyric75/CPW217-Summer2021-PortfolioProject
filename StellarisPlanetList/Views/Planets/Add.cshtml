@@ -1,4 +1,29 @@
 ﻿@model StellarisPlanetList.Models.PlanetViewModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject IHttpContextAccessor sessionData
+@inject StellarisPlanetList.Data.ApplicationDbContext db
+@{
+    int? userId = sessionData.HttpContext.Session.GetInt32("UserId");
+    string userName = null;
+
+    if (userId.HasValue)
+    {
+        if (sessionData.HttpContext.Session.GetString("Username") == null)
+        {
+            userName = await (from u in db.Users
+                              where u.UserId == userId
+                              select u.Username).SingleOrDefaultAsync();
+            sessionData.HttpContext.Session.SetString("Username", userName);
+        }
+        else
+        {
+            userName = sessionData.HttpContext.Session.GetString("Username");
+        }
+    }
+}
 
 @{
     ViewData["Title"] = "Add Planet";
@@ -38,9 +63,9 @@
                 <span asp-validation-for="PlanetEffects" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <!--<label asp-for="UserId" class="control-label"></label>-->
+                <input type="hidden" value="@userId" asp-for="UserId" class="form-control" />
+                <!--<span asp-validation-for="UserId" class="text-danger"></span>-->
             </div>
             <div class="form-group">
                 <label asp-for="PlanetNotes" class="control-label"></label>
