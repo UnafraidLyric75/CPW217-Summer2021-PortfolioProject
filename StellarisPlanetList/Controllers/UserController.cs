@@ -125,6 +125,8 @@ namespace NationalParksAcrossAmerica.Controllers
             }
             LogUserIn(account.UserId);
 
+            HttpContext.Session.SetInt32("UserId", account.UserId);
+
             return RedirectToAction("Index", "Home");
         }
 
