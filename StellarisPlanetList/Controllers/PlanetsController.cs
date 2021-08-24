@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using StellarisPlanetList.Data;
 using StellarisPlanetList.Models;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ namespace StellarisPlanetList.Controllers
         }
 
         /// <summary>
-        /// How mnay parks per page
+        /// How many planets are displayed per page
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -33,11 +32,11 @@ namespace StellarisPlanetList.Controllers
             const int PageSize = 20;
             ViewData["CurrentPage"] = pageNum;
 
-            int numProducts = await PlanetDB.GetTotalProductsAsync(_context);
+            int numProducts = await PlanetDB.GetTotalPlanetsAsync(_context);
             int totalPages = (int)Math.Ceiling((double)numProducts / PageSize);
             ViewData["MaxPage"] = totalPages;
 
-            List<PlanetViewModel> products = await PlanetDB.GetProductsAsync(_context, _httpContext, PageSize, pageNum);
+            List<PlanetViewModel> products = await PlanetDB.GetPlanetsAsync(_context, _httpContext, PageSize, pageNum);
 
 
 
@@ -45,7 +44,7 @@ namespace StellarisPlanetList.Controllers
         }
 
         /// <summary>
-        ///  adds a new park but doesnt work as whos going to make a natinal park
+        /// Adds a new planet to the planet lists
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -59,7 +58,7 @@ namespace StellarisPlanetList.Controllers
         {
             if (ModelState.IsValid)
             {
-                p = await PlanetDB.AddProductAsync(_context, p);
+                p = await PlanetDB.AddPlanetAsync(_context, p);
 
                 TempData["Message"] = $"{p.PlanetName} was added successfully";
 
@@ -70,17 +69,15 @@ namespace StellarisPlanetList.Controllers
             return View();
         }
 
-        // The following actions are for admins only and have not been implemented yet
-
         /// <summary>
-        /// lets you edit a 
+        /// lets you edit a planet that is on your list 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext,id);
+            PlanetViewModel p = await PlanetDB.GetPlanetAsync(_context, _httpContext,id);
             return View(p);
         }
 
@@ -99,20 +96,20 @@ namespace StellarisPlanetList.Controllers
         }
 
         /// <summary>
-        /// lets you delete a park, if needed
+        /// lets you delete a a planet
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext, id);
+            PlanetViewModel p = await PlanetDB.GetPlanetAsync(_context, _httpContext, id);
 
             return View(p);
         }
 
         /// <summary>
-        /// just conforms you want that park deleted
+        /// Confirms the planets deletion
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -120,7 +117,7 @@ namespace StellarisPlanetList.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            PlanetViewModel p = await PlanetDB.GetProductAsync(_context, _httpContext, id);
+            PlanetViewModel p = await PlanetDB.GetPlanetAsync(_context, _httpContext, id);
 
             _context.Entry(p).State = EntityState.Deleted;
 

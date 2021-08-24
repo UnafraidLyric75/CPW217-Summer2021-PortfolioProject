@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace NationalParksAcrossAmerica.Models
 {
+    /// <summary>
+    /// used for session data
+    /// </summary>
     public class CookieHelper
     {
         const string UserCookie = "UserCookie";
