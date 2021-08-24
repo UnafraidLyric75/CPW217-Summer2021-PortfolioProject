@@ -39,14 +39,12 @@ namespace StellarisPlanetList.Models
         /// again no drop down but min number will be set to be one or greater and it cant go over 360
         /// </summary>
         [Required]
-        [StringLength(3)]
         public int PlanetSize { get; set; }
 
         /// <summary>
         /// What is the % your species will like the planet from 0% to 100% it can go over 
         /// 100 but you dont get bonuses from that so it be a 1 to 100 type in box
         /// </summary>
-        [StringLength(3)]
         public int PlanetPercenage { get; set; }
 
         /// <summary>
