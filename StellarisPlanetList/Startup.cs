@@ -39,7 +39,7 @@ namespace StellarisPlanetList
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             services.AddDistributedMemoryCache();
 
             services.AddSession(options =>
