@@ -1,2 +1,24 @@
-﻿This project is meant to work with the grand strategy game stellaris. These files are not the files that add the webpage to a quick link in game.
-These are the website files that allow users to view there planets and find stellaris links and download links to the mod on the home page.
+﻿This project is meant to work with the grand strategy game stellaris. 
+These files are not the files that add the webpage to a quick link in game.
+These are the website files that allow users to view there planets and find
+stellaris links and download links to the mod on the home page.
+
+The two porblems i had big issues with for this project was the first time
+i tried to get the Database to update and add data. For that i had to look 
+up how to do that on the internet then talk With my Prof. Josep Ortiz Just
+to realize its was an error that caused it. Since i didnt see the error show
+up the first time it happned my guess was it was a database.
+
+The second problem i had was with making the website go live on azure.
+It was an error with migrating my database to azure to have user be able to
+login and register. It took about Three days to find the issue and fix it.
+At first i thought is was a database issue and relaunched that. I also added 
+code that would push the database up if that was the issue and that still 
+didn't work. It turned out that the Deafult String was seletcing the wrong
+name so i had to go in and change the name that it was useing as the database 
+string. Which then fixed it and aloud the database to go live and work.
+
+Most of the code that was used for the database access code i used from an 
+older project. I did However find an issue with that code that i fixed
+in that project. I had a cookie issue that a resloved with help from a
+school friend.
